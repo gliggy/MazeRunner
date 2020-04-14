@@ -31,6 +31,9 @@ var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
 
 var hero= new MySprite("maze1.png"); // The maze
 
+var character = new Image();
+character.src = "character.png";
+ctx.drawImage(character, myCanvas.width / 2, myCanvas.height / 2);
 
 function Do_a_Frame () {
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
