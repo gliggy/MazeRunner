@@ -1,3 +1,6 @@
+myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
+myCanvas.height = window.innerHeight - 20;          // fill the entire browser height
+
 var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
  var FPS = 40;                        // How many frames per second
  var Quickness = 3;                   // How quick he goes, when he's going
@@ -84,5 +87,3 @@ function MyTouchHandler (MyEvent) {
  myCanvas.addEventListener("touchend", MyTouchHandler);    
  setInterval(Do_a_Frame, 1000/FPS);                  // set my frame renderer
 
- myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
- myCanvas.height = window.innerHeight - 20;          // fill the entire browser height
