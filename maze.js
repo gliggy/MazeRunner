@@ -35,10 +35,21 @@ var levelNumber = 1
 
 
 
-var hero= new MySprite("maze" + levelNumber + ".png"); // The mazes
+var hero;
 
 var character = new Image();
 character.src = "character.png";
+
+var drawTimer = null;
+
+function startLevel() {
+  if (drawTimer) {
+    clearInterval();
+  }
+
+  hero = new MySprite("maze" + levelNumber + ".png"); // The mazes
+  drawTimer = setInterval(Do_a_Frame, 1000/FPS);                  // set my frame renderer
+}
 
 function Do_a_Frame () {
   var cw = 64;
@@ -58,6 +69,7 @@ function Do_a_Frame () {
    if (nextLevel){
      levelNumber = levelNumber + 1; 
      //setTimeout(Do_a_Frame, 2000);
+     startLevel();
      }
   //console.log(levelNumber);
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
@@ -111,7 +123,7 @@ function MyTouchHandler (MyEvent) {
  myCanvas.addEventListener("touchstart", MyTouchHandler);                
  myCanvas.addEventListener("touchmove", MyTouchHandler);  // listen for anything about touches
  myCanvas.addEventListener("touchend", MyTouchHandler);    
- setInterval(Do_a_Frame, 1000/FPS);                  // set my frame renderer
+startLevel();
 
 myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
 myCanvas.height = window.innerHeight - 40;          // fill the entire browser height
