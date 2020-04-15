@@ -76,7 +76,7 @@ function Do_a_Frame () {
     // draws character in the center of the screen
     ctx.fillStyle= "orange";
     ctx.font="20px arial";
-    ctx.fillText("Hero x=" + hero.x + " y=" + hero.y, 0, 20); // show hero coordinates
+    ctx.fillText("You are on level " + levelNumber + ".", 0, 20); // show level
     }
 
 
