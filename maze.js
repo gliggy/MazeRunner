@@ -1,7 +1,10 @@
 var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
  var FPS = 40;                        // How many frames per second
  var Quickness = 3;                   // How quick he goes, when he's going
-
+var canMoveUp = true
+var canMoveDown = true
+var canMoveRight = true
+var canMoveLeft = true
 
 
  function MySprite (img_url) {
@@ -12,6 +15,7 @@ var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
         this.velocity_y = 0;
         this.MyImg = new Image();
         this.MyImg.src = img_url ;
+
         }
 
 
@@ -36,11 +40,17 @@ character.src = "character.png";
 
 function Do_a_Frame () {
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
-    ctx.font="20px arial";
-    ctx.fillText("Hero x=" + hero.x + " y=" + hero.y, 0, 20); // show hero coordinates
     hero.Do_Frame_Things();                                   // hero
+    var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (character.height / 2) + 3, 1, 1).upData;
+    var rgb = [ upData[0], upData[1], upData[2] ];
+    if (rgb = [0, 255, 0]) canMoveUp = false;
+      else canMoveUp = true;
+     //console.log(rgb);  
     ctx.drawImage(character, (myCanvas.width / 2) - (character.width / 2), (myCanvas.height / 2) - (character.height / 2), 64, 64); 
     // draws character in the center of the screen
+    //ctx.fillStyle= "orange";
+    //ctx.font="20px arial";
+    //ctx.fillText("Hero x=" + hero.x + " y=" + hero.y, 0, 20); // show hero coordinates
     }
 
 
@@ -54,7 +64,7 @@ function MyKeyUpHandler (MyEvent) {
 
 function MyKeyDownHandler (MyEvent) { 
    if (MyEvent.keyCode == 37) {hero.velocity_x=   Quickness};  // left
-   if (MyEvent.keyCode == 38) {hero.velocity_y=   Quickness};  // up
+   if (MyEvent.keyCode == 38 && canMoveUp == true) {hero.velocity_y=   Quickness};  // up
    if (MyEvent.keyCode == 39) {hero.velocity_x=  -Quickness};  // right
    if (MyEvent.keyCode == 40) {hero.velocity_y=  -Quickness};  // down
    MyEvent.preventDefault();
