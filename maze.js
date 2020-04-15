@@ -5,6 +5,7 @@ var canMoveUp = true
 var canMoveDown = true
 var canMoveRight = true
 var canMoveLeft = true
+var nextLevel = false
 
 
  function MySprite (img_url) {
@@ -43,14 +44,17 @@ function Do_a_Frame () {
   var ch = 64;
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
     hero.Do_Frame_Things();                                   // maze
+  var Data = ctx.getImageData(myCanvas.width / 2, myCanvas.height / 2, 1, 1).data;  
   var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
-var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;  //}to detect color around "c"
+  var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;
   var rightData = ctx.getImageData(myCanvas.width / 2 + (cw / 2) + 3, (myCanvas.height / 2), 1, 1).data;
   var leftData = ctx.getImageData(myCanvas.width / 2 - (cw / 2) - 3, (myCanvas.height / 2), 1, 1).data;
-  canMoveUp = (upData[1] != 255);
-  canMoveDown = (downData[1] != 255);
-  canMoveRight = (rightData[1] != 255);
-  canMoveLeft = (leftData[1] != 255);
+  canMoveUp = (upData[0] == 255 && upData[1] != 255);
+  canMoveDown = (downData[0] == 255 && downData[1] != 255);
+  canMoveRight = (rightData[0] == 255 && rightData[1] != 255);
+  canMoveLeft = (leftData[0] == 255 && leftData[1] != 255);
+  nextLevel = (Data[0] == 255 && Data[1] == 255);
+   //console.log("nextLevel is " + nextLevel);
      //console.log(rgb);  
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
   // console.log("Character at ", (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
@@ -70,7 +74,7 @@ function MyKeyUpHandler (MyEvent) {
 
 
 function MyKeyDownHandler (MyEvent) {
-  console.log("can go", canMoveUp, canMoveDown);
+  //console.log("can go", canMoveUp, canMoveDown);
    if (MyEvent.keyCode == 37 && canMoveLeft == true) {hero.velocity_x=   Quickness};   // left
    if (MyEvent.keyCode == 38 && canMoveUp == true) {hero.velocity_y=   Quickness};     // up
    if (MyEvent.keyCode == 39 && canMoveRight == true) {hero.velocity_x=  -Quickness};  // right
