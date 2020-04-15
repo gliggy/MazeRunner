@@ -6,6 +6,7 @@ var canMoveDown = true
 var canMoveRight = true
 var canMoveLeft = true
 var nextLevel = false
+var levelNumber = 1
 
 
  function MySprite (img_url) {
@@ -34,7 +35,7 @@ var nextLevel = false
 
 
 
-var hero= new MySprite("maze1.png"); // The maze("maze" + level + "1.png")
+var hero= new MySprite("maze" + levelNumber + ".png"); // The mazes
 
 var character = new Image();
 character.src = "character.png";
@@ -49,13 +50,12 @@ function Do_a_Frame () {
   var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;
   var rightData = ctx.getImageData(myCanvas.width / 2 + (cw / 2) + 3, (myCanvas.height / 2), 1, 1).data;
   var leftData = ctx.getImageData(myCanvas.width / 2 - (cw / 2) - 3, (myCanvas.height / 2), 1, 1).data;
-  canMoveUp = (upData[0] == 255 && upData[1] != 255);
-  canMoveDown = (downData[0] == 255 && downData[1] != 255);
-  canMoveRight = (rightData[0] == 255 && rightData[1] != 255);
-  canMoveLeft = (leftData[0] == 255 && leftData[1] != 255);
-  nextLevel = (Data[0] == 255 && Data[1] == 255);
-   //console.log("nextLevel is " + nextLevel);
-     //console.log(rgb);  
+  canMoveUp = (upData[1] != 255);
+  canMoveDown = (downData[1] != 255);
+  canMoveRight = (rightData[1] != 255);
+  canMoveLeft = (leftData[1] != 255);
+  nextLevel = (Data[1] == 250);
+   if (nextLevel = true) {console.log("nextLevelOk");/*levelNumber = levelNumber + 1*/};
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
   // console.log("Character at ", (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
     // draws character in the center of the screen
