@@ -1,6 +1,6 @@
 var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
  var FPS = 40;                        // How many frames per second
- var Quickness = 3;                   // How quick he goes, when he's going
+ var Quickness = 6;                   // How quick he goes, when he's going
 var canMoveUp = true
 var canMoveDown = true
 var canMoveRight = true
@@ -55,9 +55,12 @@ function Do_a_Frame () {
   canMoveRight = (rightData[1] != 255);
   canMoveLeft = (leftData[1] != 255);
   nextLevel = (Data[1] == 250);
-   if (nextLevel) {console.log("nextLevelOk");/*levelNumber = levelNumber + 1*/};
+   if (nextLevel){
+     levelNumber = levelNumber + 1; 
+     //setTimeout(Do_a_Frame, 2000);
+     }
+  //console.log(levelNumber);
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
-  // console.log("Character at ", (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
     // draws character in the center of the screen
     ctx.fillStyle= "orange";
     ctx.font="20px arial";
