@@ -68,10 +68,14 @@ function Do_a_Frame () {
   canMoveRight = (rightData[1] != 255);
   canMoveLeft = (leftData[1] != 255);
   nextLevel = (Data[1] == 250);
-   if (nextLevel){
+   if (nextLevel && levelNumber <= 3){
      startLevel();
+     } 
+   else {
+     var answer = prompt("You ran out of levels, but you can make your own. Answer 'yes' if you want to, or 'no' if you don't.");
+      if (answer == "yes") { window.open("https://gliggy.github.io/MazeRunner/paint.html", "_self"); }
+       else alert("OK");
      }
-  //console.log(levelNumber);
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
     // draws character in the center of the screen
     ctx.fillStyle= "orange";
