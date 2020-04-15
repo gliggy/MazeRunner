@@ -6,7 +6,7 @@ var canMoveDown = true
 var canMoveRight = true
 var canMoveLeft = true
 var nextLevel = false
-var levelNumber = 1
+var levelNumber = 0
 
 
  function MySprite (img_url) {
@@ -43,8 +43,10 @@ character.src = "character.png";
 var drawTimer = null;
 
 function startLevel() {
+  levelNumber += 1;
   if (drawTimer) {
-    clearInterval();
+    clearInterval(drawTimer);
+    drawTimer = null;
   }
 
   hero = new MySprite("maze" + levelNumber + ".png"); // The mazes
@@ -67,8 +69,6 @@ function Do_a_Frame () {
   canMoveLeft = (leftData[1] != 255);
   nextLevel = (Data[1] == 250);
    if (nextLevel){
-     levelNumber = levelNumber + 1; 
-     //setTimeout(Do_a_Frame, 2000);
      startLevel();
      }
   //console.log(levelNumber);
