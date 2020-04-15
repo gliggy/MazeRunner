@@ -44,12 +44,11 @@ function Do_a_Frame () {
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
     hero.Do_Frame_Things();                                   // hero
   var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
-/*var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;  //}to detect color around "c"
+var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;  //}to detect color around "c"
   var rightData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) + (cw / 2) + 3, 1, 1).data;
-  var leftData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) - (cw / 2) - 3, 1, 1).data;*/
-  var rgb = [ upData[0], upData[1], upData[2] ];
-    if (rgb[1] == 255) canMoveUp = false;
-      else canMoveUp = true;
+  var leftData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) - (cw / 2) - 3, 1, 1).data;
+  canMoveUp = (upData[1] != 255);
+  canMoveDown = (downData[1] != 255);
      //console.log(rgb);  
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
   // console.log("Character at ", (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
@@ -69,7 +68,7 @@ function MyKeyUpHandler (MyEvent) {
 
 
 function MyKeyDownHandler (MyEvent) {
-  console.log("can go up?", canMoveUp);
+  console.log("can go", canMoveUp, canMoveDown);
    if (MyEvent.keyCode == 37) {hero.velocity_x=   Quickness};  // left
    if (MyEvent.keyCode == 38 && canMoveUp == true) {hero.velocity_y=   Quickness};  // up
    if (MyEvent.keyCode == 39) {hero.velocity_x=  -Quickness};  // right
