@@ -39,7 +39,8 @@ function Do_a_Frame () {
     ctx.font="20px arial";
     ctx.fillText("Hero x=" + hero.x + " y=" + hero.y, 0, 20); // show hero coordinates
     hero.Do_Frame_Things();                                   // hero
-    ctx.drawImage(character, myCanvas.width / 2, myCanvas.height / 2);
+    ctx.drawImage(character, (myCanvas.width / 2) - (character.width / 2), (myCanvas.height / 2) - (character.height / 2), 64, 64); 
+    // draws character in the center of the screen
     }
 
 
