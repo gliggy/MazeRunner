@@ -45,8 +45,8 @@ function Do_a_Frame () {
     hero.Do_Frame_Things();                                   // maze
   var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
 var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;  //}to detect color around "c"
-  var rightData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) + (cw / 2) + 3, 1, 1).data;
-  var leftData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) - (cw / 2) - 3, 1, 1).data;
+  var rightData = ctx.getImageData(myCanvas.width / 2 + (cw / 2) + 3, (myCanvas.height / 2), 1, 1).data;
+  var leftData = ctx.getImageData(myCanvas.width / 2 - (cw / 2) - 3, (myCanvas.height / 2), 1, 1).data;
   canMoveUp = (upData[1] != 255);
   canMoveDown = (downData[1] != 255);
   canMoveRight = (rightData[1] != 255);
