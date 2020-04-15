@@ -55,7 +55,7 @@ function Do_a_Frame () {
   canMoveRight = (rightData[1] != 255);
   canMoveLeft = (leftData[1] != 255);
   nextLevel = (Data[1] == 250);
-   if (nextLevel = true) {console.log("nextLevelOk");/*levelNumber = levelNumber + 1*/};
+   if (nextLevel) {console.log("nextLevelOk");/*levelNumber = levelNumber + 1*/};
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
   // console.log("Character at ", (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
     // draws character in the center of the screen
