@@ -33,7 +33,7 @@ var canMoveLeft = true
 
 
 
-var hero= new MySprite("maze1.png"); // The maze
+var hero= new MySprite("maze1.png"); // The maze("maze" + level + "1.png")
 
 var character = new Image();
 character.src = "character.png";
@@ -44,6 +44,9 @@ function Do_a_Frame () {
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
     hero.Do_Frame_Things();                                   // hero
   var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
+/*var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;  //}to detect color around "c"
+  var rightData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) + (cw / 2) + 3, 1, 1).data;
+  var leftData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) - (cw / 2) - 3, 1, 1).data;*/
   var rgb = [ upData[0], upData[1], upData[2] ];
     if (rgb[1] == 255) canMoveUp = false;
       else canMoveUp = true;
