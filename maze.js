@@ -140,4 +140,21 @@ startLevel();
 
 myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
 myCanvas.height = window.innerHeight - 40;          // fill the entire browser height
- 
+
+/*---------------------The following is a test:-----------------------
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+      document.getElementById(('blah').src=e.target.result);
+    }
+    
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
+
+$("#imgInp").change(function() {
+  readURL(this);
+});
+    */

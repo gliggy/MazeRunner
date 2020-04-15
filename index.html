@@ -6,5 +6,20 @@
    <canvas id="myCanvas" width=300 height=300 style="background-color: black"></canvas> 
     <script src="maze.js"></script>
    <heading id="Link" class="gameText"><a href="https://gliggy.github.io/MazeRunner/paint.html">Make Your own Levels</a></heading>
+   <div>
+    <input type="file" accept="image/*" onchange="loadFile(event)">
+    <img id="output"/>
+     <div>
+      <script>
+       var loadFile = function(event) {
+         var output = document.getElementById('output');
+         output.src = URL.createObjectURL(event.target.files[0]);
+         output.onload = function() {
+           URL.revokeObjectURL(output.src) // free memory
+         }
+       };
+      </script>
+     </div>
+   </div>
   </body>
 </html>
