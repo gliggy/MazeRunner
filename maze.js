@@ -49,8 +49,8 @@ var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch 
   var leftData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) - (cw / 2) - 3, 1, 1).data;
   canMoveUp = (upData[1] != 255);
   canMoveDown = (downData[1] != 255);
-  canMoveRight = (downData[1] != 255);
-  canMoveLeft = (downData[1] != 255);
+  canMoveRight = (rightData[1] != 255);
+  canMoveLeft = (leftData[1] != 255);
      //console.log(rgb);  
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
   // console.log("Character at ", (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
