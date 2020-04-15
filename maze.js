@@ -42,15 +42,29 @@ character.src = "character.png";
 
 var drawTimer = null;
 
-function startLevel() {
-  levelNumber += 1;
+function stopLevel() {
   if (drawTimer) {
     clearInterval(drawTimer);
     drawTimer = null;
   }
+}
 
+function startLevel() {
+  levelNumber += 1;
+  stopLevel();
   hero = new MySprite("maze" + levelNumber + ".png"); // The mazes
   drawTimer = setInterval(Do_a_Frame, 1000/FPS);                  // set my frame renderer
+}
+
+function endLevel() {
+  if (levelNumber < 3){
+    startLevel();
+  } else {
+    stopLevel();
+    var answer = prompt("You ran out of levels, but you can make your own. Answer 'yes' if you want to, or 'no' if you don't.");
+    if (answer == "yes") { window.open("https://gliggy.github.io/MazeRunner/paint.html", "_self"); }
+    else alert("OK");
+  }
 }
 
 function Do_a_Frame () {
@@ -68,14 +82,9 @@ function Do_a_Frame () {
   canMoveRight = (rightData[1] != 255);
   canMoveLeft = (leftData[1] != 255);
   nextLevel = (Data[1] == 250);
-   if (nextLevel && levelNumber <= 3){
-     startLevel();
-     } 
-   else {
-     var answer = prompt("You ran out of levels, but you can make your own. Answer 'yes' if you want to, or 'no' if you don't.");
-      if (answer == "yes") { window.open("https://gliggy.github.io/MazeRunner/paint.html", "_self"); }
-       else alert("OK");
-     }
+  if (nextLevel) {
+    endLevel();
+  }
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
     // draws character in the center of the screen
     ctx.fillStyle= "orange";
