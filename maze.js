@@ -39,18 +39,21 @@ var character = new Image();
 character.src = "character.png";
 
 function Do_a_Frame () {
+  var cw = 64;
+  var ch = 64;
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
     hero.Do_Frame_Things();                                   // hero
-    var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (character.height / 2) + 3, 1, 1).upData;
-    var rgb = [ upData[0], upData[1], upData[2] ];
-    if (rgb = [0, 255, 0]) canMoveUp = false;
+  var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
+  var rgb = [ upData[0], upData[1], upData[2] ];
+    if (rgb[1] == 255) canMoveUp = false;
       else canMoveUp = true;
      //console.log(rgb);  
-    ctx.drawImage(character, (myCanvas.width / 2) - (character.width / 2), (myCanvas.height / 2) - (character.height / 2), 64, 64); 
+  ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
+  // console.log("Character at ", (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
     // draws character in the center of the screen
-    //ctx.fillStyle= "orange";
-    //ctx.font="20px arial";
-    //ctx.fillText("Hero x=" + hero.x + " y=" + hero.y, 0, 20); // show hero coordinates
+    ctx.fillStyle= "orange";
+    ctx.font="20px arial";
+    ctx.fillText("Hero x=" + hero.x + " y=" + hero.y, 0, 20); // show hero coordinates
     }
 
 
@@ -62,7 +65,8 @@ function MyKeyUpHandler (MyEvent) {
    }
 
 
-function MyKeyDownHandler (MyEvent) { 
+function MyKeyDownHandler (MyEvent) {
+  console.log("can go up?", canMoveUp);
    if (MyEvent.keyCode == 37) {hero.velocity_x=   Quickness};  // left
    if (MyEvent.keyCode == 38 && canMoveUp == true) {hero.velocity_y=   Quickness};  // up
    if (MyEvent.keyCode == 39) {hero.velocity_x=  -Quickness};  // right
