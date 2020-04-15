@@ -21,14 +21,14 @@ var canMoveLeft = true
 
     MySprite.prototype.Do_Frame_Things = function() {
 
-        // only apply velocities if not moving the sprite further off-screen
+        // apply velocities
 
-        if ((this.velocity_x<0)) this.x += this.velocity_x;
-        if ((this.velocity_x>0)) this.x += this.velocity_x;
-        if ((this.velocity_y<0)) this.y+=  this.velocity_y;
-        if ((this.velocity_y>0)) this.y+= this.velocity_y;
-
-        if (this.visible) ctx.drawImage(this.MyImg, this.x, this.y, 6000, 3000);  // draw it
+        if ((this.velocity_x<0 && canMoveRight == true)) this.x += this.velocity_x; //left velocity
+        if ((this.velocity_x>0 && canMoveLeft == true)) this.x += this.velocity_x;  //right velocity
+        if ((this.velocity_y<0 && canMoveDown == true)) this.y+=  this.velocity_y;  //up velocity
+        if ((this.velocity_y>0 && canMoveUp == true)) this.y+= this.velocity_y;     //down velocity
+  
+        if (this.visible) ctx.drawImage(this.MyImg, this.x, this.y, 6000, 3000);  // draw the maze
         }       
 
 
@@ -42,13 +42,15 @@ function Do_a_Frame () {
   var cw = 64;
   var ch = 64;
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
-    hero.Do_Frame_Things();                                   // hero
+    hero.Do_Frame_Things();                                   // maze
   var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
 var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;  //}to detect color around "c"
   var rightData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) + (cw / 2) + 3, 1, 1).data;
   var leftData = ctx.getImageData(myCanvas.height / 2, (myCanvas.width / 2) - (cw / 2) - 3, 1, 1).data;
   canMoveUp = (upData[1] != 255);
   canMoveDown = (downData[1] != 255);
+  canMoveRight = (downData[1] != 255);
+  canMoveLeft = (downData[1] != 255);
      //console.log(rgb);  
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
   // console.log("Character at ", (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
@@ -69,10 +71,10 @@ function MyKeyUpHandler (MyEvent) {
 
 function MyKeyDownHandler (MyEvent) {
   console.log("can go", canMoveUp, canMoveDown);
-   if (MyEvent.keyCode == 37) {hero.velocity_x=   Quickness};  // left
-   if (MyEvent.keyCode == 38 && canMoveUp == true) {hero.velocity_y=   Quickness};  // up
-   if (MyEvent.keyCode == 39) {hero.velocity_x=  -Quickness};  // right
-   if (MyEvent.keyCode == 40) {hero.velocity_y=  -Quickness};  // down
+   if (MyEvent.keyCode == 37 && canMoveLeft == true) {hero.velocity_x=   Quickness};   // left
+   if (MyEvent.keyCode == 38 && canMoveUp == true) {hero.velocity_y=   Quickness};     // up
+   if (MyEvent.keyCode == 39 && canMoveRight == true) {hero.velocity_x=  -Quickness};  // right
+   if (MyEvent.keyCode == 40 && canMoveDown == true) {hero.velocity_y=  -Quickness};   // down
    MyEvent.preventDefault();
    }
 
