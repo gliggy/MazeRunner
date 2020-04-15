@@ -88,6 +88,6 @@ function MyTouchHandler (MyEvent) {
  myCanvas.addEventListener("touchend", MyTouchHandler);    
  setInterval(Do_a_Frame, 1000/FPS);                  // set my frame renderer
 
-myCanvas.width = window.innerWidth - 40;            // fill the entire browser width
+myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
 myCanvas.height = window.innerHeight - 40;          // fill the entire browser height
  
