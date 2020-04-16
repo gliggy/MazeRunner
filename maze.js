@@ -129,10 +129,10 @@ function MyTouchHandler (MyEvent) {
 
        // Add velocity depending on which thirds we see touch
 
-       if (x > myCanvas.width * 0.66) maze.velocity_x= maze.velocity_x + Quickness;  
-       if (x < myCanvas.width * 0.33) maze.velocity_x= maze.velocity_x - Quickness;  
-       if (y > myCanvas.height * 0.66) maze.velocity_y= maze.velocity_y + Quickness; 
-       if (y < myCanvas.height * 0.33) maze.velocity_y= maze.velocity_y - Quickness; 
+       if (x > myCanvas.width * 0.66) maze.velocity_x= maze.velocity_x - Quickness;  
+       if (x < myCanvas.width * 0.33) maze.velocity_x= maze.velocity_x + Quickness;  
+       if (y > myCanvas.height * 0.66) maze.velocity_y= maze.velocity_y - Quickness; 
+       if (y < myCanvas.height * 0.33) maze.velocity_y= maze.velocity_y + Quickness; 
        }
 
    MyEvent.preventDefault();   
@@ -146,6 +146,6 @@ function MyTouchHandler (MyEvent) {
 startLevel();
 
 myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
-myCanvas.height = window.innerHeight - 40;          // fill the entire browser height
+myCanvas.height = window.innerHeight - 70;          // fill the entire browser height
 
 
