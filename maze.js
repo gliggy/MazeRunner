@@ -33,7 +33,7 @@ var levelsLeft = 3
         if (this.visible){ 
 	  ctx.imageSmoothingEnabled = false;
           ctx.webkitImageSmoothingEnabled = false;
-          ctx.mozImageSmoothingEnabled = false;
+          ctx.ImageSmoothingEnabled = false;
           ctx.drawImage(this.MyImg, this.x, this.y, 6000, 3000); // draw the maze
 	   var imageWidth = MySprite.width
 	   var imageHeight = MySprite.height
@@ -156,4 +156,12 @@ startLevel();
 myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
 myCanvas.height = window.innerHeight - 70;          // fill the entire browser height
 
-
+/*var ctx = map.getContext("2d"); // Get the drawing context for the map
+ MySprite.prototype.ShowMap = function() {
+  if (this.visible){ 
+    ctx.imageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.ImageSmoothingEnabled = false;
+    ctx.drawImage(this.MyImg, this.x, this.y, 100, 50); // draw the map
+    }
+  }*/
