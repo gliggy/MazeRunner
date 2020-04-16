@@ -1,3 +1,7 @@
+function leoLand() {
+
+var myCanvas = document.getElementById('myCanvas');
+
 var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
  var FPS = 40;                        // How many frames per second
  var Quickness = 6;                   // How quick he goes, when he's going
@@ -156,8 +160,10 @@ startLevel();
 myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
 myCanvas.height = window.innerHeight - 70;          // fill the entire browser height
 
-/*var ctx = map.getContext("2d"); // Get the drawing context for the map
- MySprite.prototype.ShowMap = function() {
+var mappy = document.getElementById('mappy');
+var ctxMap = mappy.getContext("2d"); // Get the drawing context for the map
+/*
+MySprite.prototype.ShowMap = function() {
   if (this.visible){ 
     ctx.imageSmoothingEnabled = false;
     ctx.webkitImageSmoothingEnabled = false;
@@ -165,3 +171,16 @@ myCanvas.height = window.innerHeight - 70;          // fill the entire browser h
     ctx.drawImage(this.MyImg, this.x, this.y, 100, 50); // draw the map
     }
   }*/
+
+}
+
+function ready(fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+ready(leoLand);
+
