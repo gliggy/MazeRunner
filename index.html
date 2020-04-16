@@ -19,12 +19,17 @@
          var output = document.getElementById('output');
          output.src = URL.createObjectURL(event.target.files[0]);
          maze.MyImg.src = URL.createObjectURL(event.target.files[0]);
+	 levelNumber += 1
+	 levelsLeft += 1
          output.onload = function() {
            URL.revokeObjectURL(output.src) // free memory
          }
        };
       </script>
      </div>
+   </div>
+   <div>
+    <button onclick="backLevel()" class="button">Go Back to level 1.</button>
    </div>
   </body>
 </html>

@@ -7,7 +7,7 @@ var canMoveRight = true
 var canMoveLeft = true
 var nextLevel = false
 var levelNumber = 0
-
+var levelsLeft = 3
 
  function MySprite (img_url) {
         this.x = 0;
@@ -63,8 +63,15 @@ function startLevel() {
   drawTimer = setInterval(Do_a_Frame, 1000/FPS);                  // set my frame renderer
 }
 
+function backLevel() {
+  levelNumber == 1;
+  stopLevel();
+  maze = MySprite("maze1.png");
+  startLevel();
+}
+
 function endLevel() {
-  if (levelNumber < 3){
+  if (levelsLeft > 0){
     startLevel();
   } else {
     stopLevel();
@@ -91,6 +98,7 @@ function Do_a_Frame () {
   nextLevel = (Data[1] == 250);
   if (nextLevel) {
     endLevel();
+    levelsLeft -= 1
   }
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
     // draws character in the center of the screen
