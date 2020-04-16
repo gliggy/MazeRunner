@@ -1,5 +1,3 @@
-function leoLand() {
-
 var myCanvas = document.getElementById('myCanvas');
 
 var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
@@ -37,7 +35,7 @@ var levelsLeft = 3
         if (this.visible){ 
 	  ctx.imageSmoothingEnabled = false;
           ctx.webkitImageSmoothingEnabled = false;
-          ctx.ImageSmoothingEnabled = false;
+          ctx.mozImageSmoothingEnabled = false;
           ctx.drawImage(this.MyImg, this.x, this.y, 6000, 3000); // draw the maze
 	   var imageWidth = MySprite.width
 	   var imageHeight = MySprite.height
@@ -106,7 +104,7 @@ function Do_a_Frame () {
   }
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
     // draws character in the center of the screen
-    ctx.fillStyle= "orange";
+    ctx.fillStyle= "red";
     ctx.font="20px arial";
     ctx.fillText("You are on level " + levelNumber + ".", 0, 20); // show level
     }
@@ -160,27 +158,4 @@ startLevel();
 myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
 myCanvas.height = window.innerHeight - 70;          // fill the entire browser height
 
-var mappy = document.getElementById('mappy');
-var ctxMap = mappy.getContext("2d"); // Get the drawing context for the map
-/*
-MySprite.prototype.ShowMap = function() {
-  if (this.visible){ 
-    ctx.imageSmoothingEnabled = false;
-    ctx.webkitImageSmoothingEnabled = false;
-    ctx.ImageSmoothingEnabled = false;
-    ctx.drawImage(this.MyImg, this.x, this.y, 100, 50); // draw the map
-    }
-  }*/
-
-}
-
-function ready(fn) {
-  if (document.readyState != 'loading'){
-    fn();
-  } else {
-    document.addEventListener('DOMContentLoaded', fn);
-  }
-}
-
-ready(leoLand);
 
