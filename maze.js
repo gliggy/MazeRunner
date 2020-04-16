@@ -30,8 +30,15 @@ var levelNumber = 0
         if ((this.velocity_y<0 && canMoveDown == true)) this.y+=  this.velocity_y;  //up velocity
         if ((this.velocity_y>0 && canMoveUp == true)) this.y+= this.velocity_y;     //down velocity
   
-        if (this.visible) ctx.drawImage(this.MyImg, this.x, this.y, 6000, 3000);  // draw the maze
-        }       
+        if (this.visible){ 
+	  ctx.imageSmoothingEnabled = false;
+          ctx.webkitImageSmoothingEnabled = false;
+          ctx.mozImageSmoothingEnabled = false;
+          ctx.drawImage(this.MyImg, this.x, this.y, 6000, 3000); // draw the maze
+	   var imageWidth = MySprite.width
+	   var imageHeight = MySprite.height
+          }
+        }
 
 
 
@@ -141,20 +148,4 @@ startLevel();
 myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
 myCanvas.height = window.innerHeight - 40;          // fill the entire browser height
 
-/*---------------------The following is a test:-----------------------
-function readURL(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    
-    reader.onload = function(e) {
-      document.getElementById(('blah').src=e.target.result);
-    }
-    
-    reader.readAsDataURL(input.files[0]); // convert to base64 string
-  }
-}
 
-$("#imgInp").change(function() {
-  readURL(this);
-});
-    */
