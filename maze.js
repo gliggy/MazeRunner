@@ -35,7 +35,7 @@ var levelNumber = 0
 
 
 
-var hero;
+var maze;
 
 var character = new Image();
 character.src = "character.png";
@@ -52,7 +52,7 @@ function stopLevel() {
 function startLevel() {
   levelNumber += 1;
   stopLevel();
-  hero = new MySprite("maze" + levelNumber + ".png"); // The mazes
+  maze = new MySprite("maze" + levelNumber + ".png"); // The mazes
   drawTimer = setInterval(Do_a_Frame, 1000/FPS);                  // set my frame renderer
 }
 
@@ -71,7 +71,7 @@ function Do_a_Frame () {
   var cw = 64;
   var ch = 64;
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
-    hero.Do_Frame_Things();                                   // maze
+    maze.Do_Frame_Things();                                   // maze
   var Data = ctx.getImageData(myCanvas.width / 2, myCanvas.height / 2, 1, 1).data;  
   var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
   var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;
@@ -96,25 +96,25 @@ function Do_a_Frame () {
 
 
 function MyKeyUpHandler (MyEvent) { 
-   if (MyEvent.keyCode == 37 || MyEvent.keyCode == 39) {hero.velocity_x= 0}; // not left or right
-   if (MyEvent.keyCode == 38 || MyEvent.keyCode == 40) {hero.velocity_y= 0}; // not up or down
+   if (MyEvent.keyCode == 37 || MyEvent.keyCode == 39) {maze.velocity_x= 0}; // not left or right
+   if (MyEvent.keyCode == 38 || MyEvent.keyCode == 40) {maze.velocity_y= 0}; // not up or down
    }
 
 
 function MyKeyDownHandler (MyEvent) {
   //console.log("can go", canMoveUp, canMoveDown);
-   if (MyEvent.keyCode == 37 && canMoveLeft == true) {hero.velocity_x=   Quickness};   // left
-   if (MyEvent.keyCode == 38 && canMoveUp == true) {hero.velocity_y=   Quickness};     // up
-   if (MyEvent.keyCode == 39 && canMoveRight == true) {hero.velocity_x=  -Quickness};  // right
-   if (MyEvent.keyCode == 40 && canMoveDown == true) {hero.velocity_y=  -Quickness};   // down
+   if (MyEvent.keyCode == 37 && canMoveLeft == true) {maze.velocity_x=   Quickness};   // left
+   if (MyEvent.keyCode == 38 && canMoveUp == true) {maze.velocity_y=   Quickness};     // up
+   if (MyEvent.keyCode == 39 && canMoveRight == true) {maze.velocity_x=  -Quickness};  // right
+   if (MyEvent.keyCode == 40 && canMoveDown == true) {maze.velocity_y=  -Quickness};   // down
    MyEvent.preventDefault();
    }
 
 
 function MyTouchHandler (MyEvent) { 
    var rect = myCanvas.getBoundingClientRect();           // where is our canvas
-   hero.velocity_y= 0; 
-   hero.velocity_x= 0;                                    // zero out velocity
+   maze.velocity_y= 0; 
+   maze.velocity_x= 0;                                    // zero out velocity
 
    for (var i=0; i < MyEvent.touches.length; i++) {
        var x = MyEvent.touches[i].clientX - rect.left;    // get x & y coords
@@ -122,10 +122,10 @@ function MyTouchHandler (MyEvent) {
 
        // Add velocity depending on which thirds we see touch
 
-       if (x > myCanvas.width * 0.66) hero.velocity_x= hero.velocity_x + Quickness;  
-       if (x < myCanvas.width * 0.33) hero.velocity_x= hero.velocity_x - Quickness;  
-       if (y > myCanvas.height * 0.66) hero.velocity_y= hero.velocity_y + Quickness; 
-       if (y < myCanvas.height * 0.33) hero.velocity_y= hero.velocity_y - Quickness; 
+       if (x > myCanvas.width * 0.66) maze.velocity_x= maze.velocity_x + Quickness;  
+       if (x < myCanvas.width * 0.33) maze.velocity_x= maze.velocity_x - Quickness;  
+       if (y > myCanvas.height * 0.66) maze.velocity_y= maze.velocity_y + Quickness; 
+       if (y < myCanvas.height * 0.33) maze.velocity_y= maze.velocity_y - Quickness; 
        }
 
    MyEvent.preventDefault();   

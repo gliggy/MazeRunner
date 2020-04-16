@@ -212,14 +212,14 @@ var SaveButton = class SaveButton {
     this.picture = state.picture;
     this.dom = elt("button", {
       onclick: () => this.save()
-    }, "Save");
+    }, "Save to Computer");
   }
   save() {
     let canvas = elt("canvas");
     drawPicture(this.picture, canvas, 1);
     let link = elt("a", {
       href: canvas.toDataURL(),
-      download: "pixelart.png"
+      download: "maze.png"
     });
     document.body.appendChild(link);
     link.click();
@@ -232,7 +232,7 @@ var LoadButton = class LoadButton {
   constructor(_, {dispatch}) {
     this.dom = elt("button", {
       onclick: () => startLoad(dispatch)
-    }, "Load");
+    }, "Upload");
   }
   syncState() {}
 }
