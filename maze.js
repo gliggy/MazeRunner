@@ -10,10 +10,12 @@ var canMoveLeft = true
 var nextLevel = false
 var levelNumber = 0
 var levelsLeft = 3
+var x_char = 0;
+var y_char = 0;
 
  function MySprite (img_url) {
         this.x = 0;
-        this.y = 0; 
+        this.y = 0;
         this.visible= true;
         this.velocity_x = 0;
         this.velocity_y = 0;
@@ -27,10 +29,22 @@ var levelsLeft = 3
 
         // apply velocities
 
-        if ((this.velocity_x<0 && canMoveRight == true)) this.x += this.velocity_x; //left velocity
-        if ((this.velocity_x>0 && canMoveLeft == true)) this.x += this.velocity_x;  //right velocity
-        if ((this.velocity_y<0 && canMoveDown == true)) this.y+=  this.velocity_y;  //up velocity
-        if ((this.velocity_y>0 && canMoveUp == true)) this.y+= this.velocity_y;     //down velocity
+        if ((this.velocity_x<0 && canMoveRight == true)) x_char += this.velocity_x; //left velocity
+        if ((this.velocity_x>0 && canMoveLeft == true)) x_char += this.velocity_x;  //right velocity
+        if ((this.velocity_y<0 && canMoveDown == true)) y_char +=  this.velocity_y;  //up velocity
+        if ((this.velocity_y>0 && canMoveUp == true)) y_char += this.velocity_y;     //down velocity
+	var space = 40;
+	if (Math.abs(x_char) > space) {
+	  var dx = (Math.abs(x_char) - space) * Math.sign(x_char);
+	  this.x -= dx;
+	  x_char -= dx;
+	} 
+	if (Math.abs(y_char) > space) {
+	  var dy = (Math.abs(y_char) - space) * Math.sign(y_char);
+	  this.y -= dy;
+	  y_char -= dy;
+	} 
+
   
         if (this.visible){ 
 	  ctx.imageSmoothingEnabled = false;
@@ -88,21 +102,21 @@ function Do_a_Frame () {
   var ch = 64;
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
     maze.Do_Frame_Things();                                   // maze
-  var Data = ctx.getImageData(myCanvas.width / 2, myCanvas.height / 2, 1, 1).data;  
-  var upData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
-  var downData = ctx.getImageData(myCanvas.width / 2, (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;
-  var rightData = ctx.getImageData(myCanvas.width / 2 + (cw / 2) + 3, (myCanvas.height / 2), 1, 1).data;
-  var leftData = ctx.getImageData(myCanvas.width / 2 - (cw / 2) - 3, (myCanvas.height / 2), 1, 1).data;
-  canMoveUp = (upData[1] != 255);
-  canMoveDown = (downData[1] != 255);
-  canMoveRight = (rightData[1] != 255);
-  canMoveLeft = (leftData[1] != 255);
+  var Data = ctx.getImageData(x_char + myCanvas.width / 2, y_char + myCanvas.height / 2, 1, 1).data;  
+  var upData = ctx.getImageData(x_char + myCanvas.width / 2, y_char + (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
+  var downData = ctx.getImageData(x_char + myCanvas.width / 2, y_char + (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;
+  var rightData = ctx.getImageData(x_char + myCanvas.width / 2 + (cw / 2) + 3, y_char + (myCanvas.height / 2), 1, 1).data;
+  var leftData = ctx.getImageData(x_char + myCanvas.width / 2 - (cw / 2) - 3, y_char + (myCanvas.height / 2), 1, 1).data;
+  canMoveDown = (upData[1] != 255);
+  canMoveUp = (downData[1] != 255);
+  canMoveLeft = (rightData[1] != 255);
+  canMoveRight = (leftData[1] != 255);
   nextLevel = (Data[1] == 250);
   if (nextLevel) {
     endLevel();
     levelsLeft -= 1
   }
-  ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2), (myCanvas.height / 2) - (ch / 2), cw, ch);
+  ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2) + x_char, (myCanvas.height / 2) - (ch / 2) + y_char, cw, ch);
     // draws character in the center of the screen
     ctx.fillStyle= "red";
     ctx.font="20px arial";
@@ -120,10 +134,10 @@ function MyKeyUpHandler (MyEvent) {
 
 function MyKeyDownHandler (MyEvent) {
   //console.log("can go", canMoveUp, canMoveDown);
-   if (MyEvent.keyCode == 37 && canMoveLeft == true) {maze.velocity_x=   Quickness};   // left
-   if (MyEvent.keyCode == 38 && canMoveUp == true) {maze.velocity_y=   Quickness};     // up
-   if (MyEvent.keyCode == 39 && canMoveRight == true) {maze.velocity_x=  -Quickness};  // right
-   if (MyEvent.keyCode == 40 && canMoveDown == true) {maze.velocity_y=  -Quickness};   // down
+   if (MyEvent.keyCode == 37 && canMoveRight == true) {maze.velocity_x=   -Quickness};   // left
+   if (MyEvent.keyCode == 38 && canMoveDown == true) {maze.velocity_y=   -Quickness};     // up
+   if (MyEvent.keyCode == 39 && canMoveLeft == true) {maze.velocity_x=  Quickness};  // right
+   if (MyEvent.keyCode == 40 && canMoveUp == true) {maze.velocity_y=  Quickness};   // down
    MyEvent.preventDefault();
    }
 
