@@ -13,6 +13,32 @@ var levelsLeft = 3
 var x_char = 0;
 var y_char = 0;
 
+class World {
+  constructor(ctx, width, height) {
+    this.ctx = ctx
+    this.width = width
+    this.height = height
+    this.x = 0
+    this.y = 0
+  }
+}
+
+class Mover {
+  constructor(x, y, img) {
+    this.x = x
+    this.y = y
+    this.img = img
+  }
+  draw(world) {
+    world.ctx.drawImage(this.img, this.x, this.y, 64, 64)
+  }
+} 
+
+var enemyCostume = new Image();
+enemyCostume.src = "enemy.png";
+var enemy = new Mover(100, 100, enemyCostume);
+var world = new World(ctx, 6000, 3000); 
+
  function MySprite (img_url) {
         this.x = 0;
         this.y = 0;
@@ -33,18 +59,28 @@ var y_char = 0;
         if ((this.velocity_x>0 && canMoveLeft == true)) x_char += this.velocity_x;  //right velocity
         if ((this.velocity_y<0 && canMoveDown == true)) y_char +=  this.velocity_y;  //up velocity
         if ((this.velocity_y>0 && canMoveUp == true)) y_char += this.velocity_y;     //down velocity
-	var space = 40;
+	var space = 60;
 	if (Math.abs(x_char) > space) {
 	  var dx = (Math.abs(x_char) - space) * Math.sign(x_char);
 	  this.x -= dx;
 	  x_char -= dx;
-	} 
+	} else { 
+	  var dx = x_char/4;
+	  this.x -= dx;
+	  x_char -= dx;
+	}
 	if (Math.abs(y_char) > space) {
 	  var dy = (Math.abs(y_char) - space) * Math.sign(y_char);
 	  this.y -= dy;
 	  y_char -= dy;
-	} 
+	} else {
+	  var dy = y_char/4;
+	  this.y -= dy;
+	  y_char -= dy;
+	}
 
+	world.x = this.x
+	world.y = this.y
   
         if (this.visible){ 
 	  ctx.imageSmoothingEnabled = false;
@@ -118,6 +154,7 @@ function Do_a_Frame () {
   }
   ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2) + x_char, (myCanvas.height / 2) - (ch / 2) + y_char, cw, ch);
     // draws character in the center of the screen
+    enemy.draw(world)
     ctx.fillStyle= "red";
     ctx.font="20px arial";
     ctx.fillText("You are on level " + levelNumber + ".", 0, 20); // show level
