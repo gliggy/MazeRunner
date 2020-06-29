@@ -5,46 +5,50 @@ myCanvas.height = window.innerHeight - 70;          // fill the entire browser h
 var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
  var FPS = 40;                        // How many frames per second
  var Quickness = 6;                   // How quick the hero goes (isn't working right now)
-var canMoveUp = true
-var canMoveDown = true
-var canMoveRight = true
-var canMoveLeft = true
-var nextLevel = false
-var levelNumber = 0
-var levelsLeft = 3
-var lives = 5
-var lastDeathTime = 0
+var canMoveUp = true;
+var canMoveDown = true;
+var canMoveRight = true;
+var canMoveLeft = true;
+var nextLevel = false;
+var levelNumber = 0;
+var levelsLeft = 3;
+var lives = 5;
+var lastDeathTime = 0;
+
+//audio
+var wall = new Audio("hitWall.wav");
+var levelUp = new Audio("nextLevel.wav");
 
 class World {
   constructor(ctx, width, height) {
-    this.ctx = ctx
-    this.width = width
-    this.height = height
-    this.x = 0
-    this.y = 0
+    this.ctx = ctx;
+    this.width = width;
+    this.height = height;
+    this.x = 0;
+    this.y = 0;
   }
 }
 
 class Mover {
   constructor(x, y, img) {
-    this.x = x
-    this.y = y
-    this.img = img
-    this.xStart = x
-    this.yStart = y
+    this.x = x;
+    this.y = y;
+    this.img = img;
+    this.xStart = x;
+    this.yStart = y;
   }
   draw(world) {
-    world.ctx.drawImage(this.img, this.x + world.x - 32, this.y + world.y - 32, 64, 64)
+    world.ctx.drawImage(this.img, this.x + world.x - 32, this.y + world.y - 32, 64, 64);
   }
   chase(target) {
-    var dx = target.x - this.x
-    var dy = target.y - this.y
-    var length = Math.sqrt(dx * dx + dy * dy)
+    var dx = target.x - this.x;
+    var dy = target.y - this.y;
+    var length = Math.sqrt(dx * dx + dy * dy);
     if (length < 1000) {
-      this.x += 3 * dx / length
-      this.y += 3 * dy / length
+      this.x += 3 * dx / length;
+      this.y += 3 * dy / length;
     }
-    if (length < 30 && Date.now() - 2000 > lastDeathTime) {
+    if (length < 50 && Date.now() - 2000 > lastDeathTime) {
       lives -= 1;
       lastDeathTime = Date.now();
     }
@@ -94,13 +98,37 @@ function showEnemies () {
 
     MySprite.prototype.Do_Frame_Things = function() {
 
-        // apply velocities
+      // apply velocities
         
-        var factor = 2.5
-        if ((this.velocity_x < 0 && canMoveRight == true)) hero.x += this.velocity_x * factor; //left velocity
-        if ((this.velocity_x > 0 && canMoveLeft == true)) hero.x += this.velocity_x * factor;  //right velocity
-        if ((this.velocity_y < 0 && canMoveDown == true)) hero.y +=  this.velocity_y * factor;  //up velocity
-        if ((this.velocity_y > 0 && canMoveUp == true)) hero.y += this.velocity_y * factor;     //down velocity
+      var factor = 2.5
+      if (this.velocity_x < 0) {
+       if (canMoveRight) {
+         hero.x += this.velocity_x * factor;
+       } else {
+         wall.play();
+       }
+      }
+      if (this.velocity_x > 0) {
+       if (canMoveLeft) {
+         hero.x += this.velocity_x * factor;
+       } else {
+         wall.play();
+       }
+      }
+      if (this.velocity_y < 0) {
+       if (canMoveDown) {
+         hero.y += this.velocity_y * factor;
+       } else {
+         wall.play();
+       }
+      }
+      if (this.velocity_y > 0) {
+       if (canMoveRight) {
+         hero.y += this.velocity_y * factor;
+       } else {
+         wall.play();
+       }
+      }
 	var space = 60;
 	var cx = myCanvas.width / 2 - world.x
 	var cy = myCanvas.height / 2 - world.y
@@ -155,6 +183,7 @@ function stopLevel() {
 function startLevel() {
   levelNumber += 1;
   stopLevel();
+  levelUp.play();
   maze = new MySprite("maze" + levelNumber + ".png"); // The mazes
   world.x = maze.x;
   world.y = maze.y;
