@@ -4,7 +4,7 @@ myCanvas.height = window.innerHeight - 70;          // fill the entire browser h
 
 var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
  var FPS = 40;                        // How many frames per second
- var Quickness = 6;                   // How quick he goes, when he's going
+ var Quickness = 6;                   // How quick the hero goes (isn't working right now)
 var canMoveUp = true
 var canMoveDown = true
 var canMoveRight = true
@@ -189,12 +189,12 @@ function MyKeyUpHandler (MyEvent) {
 
 function MyKeyDownHandler (MyEvent) {
   //console.log("can go", canMoveUp, canMoveDown);
-   if (MyEvent.keyCode == 37 && canMoveRight == true) {maze.velocity_x=   -Quickness};   // left
-   if (MyEvent.keyCode == 38 && canMoveDown == true) {maze.velocity_y=   -Quickness};     // up
-   if (MyEvent.keyCode == 39 && canMoveLeft == true) {maze.velocity_x=  Quickness};  // right
-   if (MyEvent.keyCode == 40 && canMoveUp == true) {maze.velocity_y=  Quickness};   // down
+   if (MyEvent.keyCode == 37 && canMoveRight == true) {maze.velocity_x = -Quickness}; // left
+   if (MyEvent.keyCode == 38 && canMoveDown == true) {maze.velocity_y = -Quickness};  // up
+   if (MyEvent.keyCode == 39 && canMoveLeft == true) {maze.velocity_x = Quickness};   // right
+   if (MyEvent.keyCode == 40 && canMoveUp == true) {maze.velocity_y = Quickness};     // down
    MyEvent.preventDefault();
-   }
+   } 
 
 
 function MyTouchHandler (MyEvent) { 
