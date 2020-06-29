@@ -32,6 +32,13 @@ class Mover {
   draw(world) {
     world.ctx.drawImage(this.img, this.x + world.x - 32, this.y + world.y - 32, 64, 64)
   }
+  chase(target) {
+    var dx = target.x - this.x
+    var dy = target.y - this.y
+    var length = Math.sqrt(dx * dx + dy * dy)
+    this.x += 3 * dx / length
+    this.y += 3 * dy / length
+  }
 } 
 
 var enemyCostume = new Image();
@@ -68,11 +75,12 @@ function enemies () {
     MySprite.prototype.Do_Frame_Things = function() {
 
         // apply velocities
-
-        if ((this.velocity_x<0 && canMoveRight == true)) hero.x += this.velocity_x; //left velocity
-        if ((this.velocity_x>0 && canMoveLeft == true)) hero.x += this.velocity_x;  //right velocity
-        if ((this.velocity_y<0 && canMoveDown == true)) hero.y +=  this.velocity_y;  //up velocity
-        if ((this.velocity_y>0 && canMoveUp == true)) hero.y += this.velocity_y;     //down velocity
+        
+        var factor = 2.5
+        if ((this.velocity_x < 0 && canMoveRight == true)) hero.x += this.velocity_x * factor; //left velocity
+        if ((this.velocity_x > 0 && canMoveLeft == true)) hero.x += this.velocity_x * factor;  //right velocity
+        if ((this.velocity_y < 0 && canMoveDown == true)) hero.y +=  this.velocity_y * factor;  //up velocity
+        if ((this.velocity_y > 0 && canMoveUp == true)) hero.y += this.velocity_y * factor;     //down velocity
 	var space = 60;
 	var cx = myCanvas.width / 2 - world.x
 	var cy = myCanvas.height / 2 - world.y
@@ -172,7 +180,10 @@ function Do_a_Frame () {
   //ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2) + hero.x, (myCanvas.height / 2) - (ch / 2) + hero.y, cw, ch);
   
     // draws character in the center of the screen
-    if (haveEnemies) {enemy.draw(world)}
+    if (haveEnemies) {
+      enemy.draw(world)
+      enemy.chase(hero);
+    }
     ctx.fillStyle= "red";
     ctx.font="20px arial";
     ctx.fillText("You are on level " + levelNumber + ".", 0, 20); // show level
