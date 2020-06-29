@@ -28,6 +28,8 @@ class Mover {
     this.x = x
     this.y = y
     this.img = img
+    this.xStart = x
+    this.yStart = y
   }
   draw(world) {
     world.ctx.drawImage(this.img, this.x + world.x - 32, this.y + world.y - 32, 64, 64)
@@ -36,21 +38,32 @@ class Mover {
     var dx = target.x - this.x
     var dy = target.y - this.y
     var length = Math.sqrt(dx * dx + dy * dy)
-    this.x += 3 * dx / length
-    this.y += 3 * dy / length
+    if (length < 1000) {
+      this.x += 3 * dx / length
+      this.y += 3 * dy / length
+    }
+  }
+  reset() {
+    this.x = this.xStart
+    this.y = this.yStart
   }
 } 
 
+var world = new World(ctx, 6000, 3000);
 var enemyCostume = new Image();
 enemyCostume.src = "enemy.png";
-var enemy = new Mover(100, 100, enemyCostume);
+var enemies = []
+for (var i = 0; i < 10; i ++){
+  var x = Math.random() * world.width
+  var y = Math.random() * world.height
+  enemies.push(new Mover(x, y, enemyCostume));
+} 
 var heroCostume = new Image();
 heroCostume.src = "character.png";
-var hero = new Mover(myCanvas.width / 2, myCanvas.height / 2, heroCostume);
-var world = new World(ctx, 6000, 3000); 
+var hero = new Mover(myCanvas.width / 2, myCanvas.height / 2, heroCostume); 
 var haveEnemies = false
 
-function enemies () {
+function showEnemies () {
   if (haveEnemies) {
     haveEnemies = false
     document.getElementById("enemyButton").value="Play With Enemies";
@@ -136,6 +149,9 @@ function startLevel() {
   levelNumber += 1;
   stopLevel();
   maze = new MySprite("maze" + levelNumber + ".png"); // The mazes
+  world.x = maze.x;
+  world.y = maze.y;
+  hero.reset();
   drawTimer = setInterval(Do_a_Frame, 1000/FPS);                  // set my frame renderer
 }
 
@@ -181,8 +197,10 @@ function Do_a_Frame () {
   
     // draws character in the center of the screen
     if (haveEnemies) {
-      enemy.draw(world)
-      enemy.chase(hero);
+      for (var enemy of enemies) {
+        enemy.draw(world);
+        enemy.chase(hero);
+      }
     }
     ctx.fillStyle= "red";
     ctx.font="20px arial";
