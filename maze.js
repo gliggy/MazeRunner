@@ -12,6 +12,8 @@ var canMoveLeft = true
 var nextLevel = false
 var levelNumber = 0
 var levelsLeft = 3
+var lives = 5
+var lastDeathTime = 0
 
 class World {
   constructor(ctx, width, height) {
@@ -42,6 +44,11 @@ class Mover {
       this.x += 3 * dx / length
       this.y += 3 * dy / length
     }
+    if (length < 30 && Date.now() - 2000 > lastDeathTime) {
+      lives -= 1;
+      lastDeathTime = Date.now();
+    }
+    if (lives == 0) {noLives();}
   }
   reset() {
     this.x = this.xStart
@@ -156,7 +163,7 @@ function startLevel() {
 }
 
 function backLevel() {
-  levelNumber == 1;
+  levelNumber = 0;
   stopLevel();
   maze = MySprite("maze1.png");
   startLevel();
@@ -171,6 +178,13 @@ function endLevel() {
     if (answer == "yes") { window.open("https://gliggy.github.io/MazeRunner/paint.html", "_self"); }
     else alert("OK");
   }
+}
+
+function noLives() {
+  stopLevel();
+  alert("You have died.");
+  backLevel();
+  lives = 5;
 }
 
 function Do_a_Frame () {
@@ -204,7 +218,8 @@ function Do_a_Frame () {
     }
     ctx.fillStyle= "red";
     ctx.font="20px arial";
-    ctx.fillText("You are on level " + levelNumber + ".", 0, 20); // show level
+    ctx.fillText("You are on level " + levelNumber + ".", 5, 20); // show level
+    ctx.fillText("You have " + lives + " lives left.", 5, 50);
     }
 
 
