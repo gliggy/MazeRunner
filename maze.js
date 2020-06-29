@@ -1,4 +1,6 @@
 var myCanvas = document.getElementById('myCanvas');
+myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
+myCanvas.height = window.innerHeight - 70;          // fill the entire browser height
 
 var ctx = myCanvas.getContext("2d"); // Get the drawing context for the canvas
  var FPS = 40;                        // How many frames per second
@@ -10,8 +12,6 @@ var canMoveLeft = true
 var nextLevel = false
 var levelNumber = 0
 var levelsLeft = 3
-var x_char = 0;
-var y_char = 0;
 
 class World {
   constructor(ctx, width, height) {
@@ -30,14 +30,28 @@ class Mover {
     this.img = img
   }
   draw(world) {
-    world.ctx.drawImage(this.img, this.x, this.y, 64, 64)
+    world.ctx.drawImage(this.img, this.x + world.x - 32, this.y + world.y - 32, 64, 64)
   }
 } 
 
 var enemyCostume = new Image();
 enemyCostume.src = "enemy.png";
 var enemy = new Mover(100, 100, enemyCostume);
+var heroCostume = new Image();
+heroCostume.src = "character.png";
+var hero = new Mover(myCanvas.width / 2, myCanvas.height / 2, heroCostume);
 var world = new World(ctx, 6000, 3000); 
+var haveEnemies = false
+
+function enemies () {
+  if (haveEnemies) {
+    haveEnemies = false
+    document.getElementById("enemyButton").value="Play With Enemies";
+  } else {
+    haveEnemies = true
+    document.getElementById("enemyButton").value="Play Without Enemies";
+    }
+}
 
  function MySprite (img_url) {
         this.x = 0;
@@ -55,28 +69,30 @@ var world = new World(ctx, 6000, 3000);
 
         // apply velocities
 
-        if ((this.velocity_x<0 && canMoveRight == true)) x_char += this.velocity_x; //left velocity
-        if ((this.velocity_x>0 && canMoveLeft == true)) x_char += this.velocity_x;  //right velocity
-        if ((this.velocity_y<0 && canMoveDown == true)) y_char +=  this.velocity_y;  //up velocity
-        if ((this.velocity_y>0 && canMoveUp == true)) y_char += this.velocity_y;     //down velocity
+        if ((this.velocity_x<0 && canMoveRight == true)) hero.x += this.velocity_x; //left velocity
+        if ((this.velocity_x>0 && canMoveLeft == true)) hero.x += this.velocity_x;  //right velocity
+        if ((this.velocity_y<0 && canMoveDown == true)) hero.y +=  this.velocity_y;  //up velocity
+        if ((this.velocity_y>0 && canMoveUp == true)) hero.y += this.velocity_y;     //down velocity
 	var space = 60;
-	if (Math.abs(x_char) > space) {
-	  var dx = (Math.abs(x_char) - space) * Math.sign(x_char);
+	var cx = myCanvas.width / 2 - world.x
+	var cy = myCanvas.height / 2 - world.y
+	if (Math.abs(hero.x - cx) > space) {
+	  var dx = (Math.abs(hero.x - cx) - space) * Math.sign(hero.x - cx);
 	  this.x -= dx;
-	  x_char -= dx;
+	  hero.x -= dx;
 	} else { 
-	  var dx = x_char/4;
+	  var dx = (hero.x - cx)/4;
 	  this.x -= dx;
-	  x_char -= dx;
+	  hero.x -= dx;
 	}
-	if (Math.abs(y_char) > space) {
-	  var dy = (Math.abs(y_char) - space) * Math.sign(y_char);
+	if (Math.abs(hero.y - cy) > space) {
+	  var dy = (Math.abs(hero.y - cy) - space) * Math.sign(hero.y - cy);
 	  this.y -= dy;
-	  y_char -= dy;
+	  hero.y -= dy;
 	} else {
-	  var dy = y_char/4;
+	  var dy = (hero.y - cy)/4;
 	  this.y -= dy;
-	  y_char -= dy;
+	  hero.y -= dy;
 	}
 
 	world.x = this.x
@@ -138,11 +154,11 @@ function Do_a_Frame () {
   var ch = 64;
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);     // clear the background
     maze.Do_Frame_Things();                                   // maze
-  var Data = ctx.getImageData(x_char + myCanvas.width / 2, y_char + myCanvas.height / 2, 1, 1).data;  
-  var upData = ctx.getImageData(x_char + myCanvas.width / 2, y_char + (myCanvas.height / 2) - (ch / 2) - 3, 1, 1).data;
-  var downData = ctx.getImageData(x_char + myCanvas.width / 2, y_char + (myCanvas.height / 2) + (ch / 2) + 3, 1, 1).data;
-  var rightData = ctx.getImageData(x_char + myCanvas.width / 2 + (cw / 2) + 3, y_char + (myCanvas.height / 2), 1, 1).data;
-  var leftData = ctx.getImageData(x_char + myCanvas.width / 2 - (cw / 2) - 3, y_char + (myCanvas.height / 2), 1, 1).data;
+  var Data = ctx.getImageData(hero.x + world.x, hero.y + world.y, 1, 1).data;  
+  var upData = ctx.getImageData(hero.x + world.x, hero.y + world.y - (ch / 2) - 3, 1, 1).data;
+  var downData = ctx.getImageData(hero.x + world.x, hero.y + world.y + (ch / 2) + 3, 1, 1).data;
+  var rightData = ctx.getImageData(hero.x + world.x + (cw / 2) + 3, hero.y + world.y, 1, 1).data;
+  var leftData = ctx.getImageData(hero.x + world.x - (cw / 2) - 3, hero.y + world.y, 1, 1).data;
   canMoveDown = (upData[1] != 255);
   canMoveUp = (downData[1] != 255);
   canMoveLeft = (rightData[1] != 255);
@@ -152,9 +168,11 @@ function Do_a_Frame () {
     endLevel();
     levelsLeft -= 1
   }
-  ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2) + x_char, (myCanvas.height / 2) - (ch / 2) + y_char, cw, ch);
+  hero.draw(world);
+  //ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2) + hero.x, (myCanvas.height / 2) - (ch / 2) + hero.y, cw, ch);
+  
     // draws character in the center of the screen
-    enemy.draw(world)
+    if (haveEnemies) {enemy.draw(world)}
     ctx.fillStyle= "red";
     ctx.font="20px arial";
     ctx.fillText("You are on level " + levelNumber + ".", 0, 20); // show level
@@ -206,7 +224,5 @@ function MyTouchHandler (MyEvent) {
  myCanvas.addEventListener("touchend", MyTouchHandler);    
 startLevel();
 
-myCanvas.width = window.innerWidth - 20;            // fill the entire browser width
-myCanvas.height = window.innerHeight - 70;          // fill the entire browser height
 
 
