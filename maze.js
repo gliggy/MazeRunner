@@ -237,10 +237,10 @@ function MyTouchHandler (MyEvent) {
 
        // Add velocity depending on which thirds we see touch
 
-       if (x > myCanvas.width * 0.66) maze.velocity_x= maze.velocity_x - Quickness;  
-       if (x < myCanvas.width * 0.33) maze.velocity_x= maze.velocity_x + Quickness;  
-       if (y > myCanvas.height * 0.66) maze.velocity_y= maze.velocity_y - Quickness; 
-       if (y < myCanvas.height * 0.33) maze.velocity_y= maze.velocity_y + Quickness; 
+       if (x > myCanvas.width * 0.66) maze.velocity_x = maze.velocity_x + Quickness;  
+       if (x < myCanvas.width * 0.33) maze.velocity_x = maze.velocity_x - Quickness;  
+       if (y > myCanvas.height * 0.66) maze.velocity_y = maze.velocity_y + Quickness; 
+       if (y < myCanvas.height * 0.33) maze.velocity_y = maze.velocity_y - Quickness; 
        }
 
    MyEvent.preventDefault();   
