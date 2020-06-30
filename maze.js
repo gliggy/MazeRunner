@@ -18,6 +18,7 @@ var lastDeathTime = 0;
 //audio
 var wall = new Audio("hitWall.wav");
 var levelUp = new Audio("nextLevel.wav");
+var hitEnemy = new Audio("hitEnemy.wav");
 
 class World {
   constructor(ctx, width, height) {
@@ -51,6 +52,7 @@ class Mover {
     if (length < 50 && Date.now() - 2000 > lastDeathTime) {
       lives -= 1;
       lastDeathTime = Date.now();
+      
     }
     if (lives == 0) {noLives();}
   }
