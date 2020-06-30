@@ -54,32 +54,71 @@ class Mover {
     }
     if (lives == 0) {noLives();}
   }
+  getDimensions() {
+    return [64, 64];
+  }
   reset() {
-    this.x = this.xStart
-    this.y = this.yStart
+    this.x = this.xStart;
+    this.y = this.yStart;
   }
 } 
+
+class Sensor {
+  constructor(x, y, mover, world) {
+    this.x = x;
+    this.y = y;
+    this.mover = mover;
+    this.world = world;
+  }
+  getPixel() {
+    var result = this.world.ctx.getImageData(this.mover.x + this.x + world.x, this.mover.y + this.y + world.y, 1, 1).data;
+    //console.log(result, this);
+    return result;
+  }
+  isWall() {
+    return this.getPixel()[1] === 255;
+  }
+}
+
+class Sensors {
+  constructor(mover, world) {
+    this.mover = mover;
+    this.world = world;
+    var [dx, dy] = this.mover.getDimensions();
+    dx /= 2;
+    dy /= 2;
+    var points = [[-dx, -dy], [0, -dy], [dx, -dy], [dx, 0], [dx, dy], [0, dy], [-dx, dy], [-dx, 0]];
+    this.sensors = [];
+    for(var point of points) {
+      this.sensors.push(new Sensor(point[0], point[1], this.mover, this.world));
+    }
+  }
+  isWall() {
+    return this.sensors.some(sensor => sensor.isWall());
+  }
+}
 
 var world = new World(ctx, 6000, 3000);
 var enemyCostume = new Image();
 enemyCostume.src = "enemy.png";
-var enemies = []
+var enemies = [];
 for (var i = 0; i < 10; i ++){
-  var x = Math.random() * world.width
-  var y = Math.random() * world.height
+  var x = Math.random() * world.width;
+  var y = Math.random() * world.height;
   enemies.push(new Mover(x, y, enemyCostume));
 } 
 var heroCostume = new Image();
 heroCostume.src = "character.png";
 var hero = new Mover(myCanvas.width / 2, myCanvas.height / 2, heroCostume); 
-var haveEnemies = false
+var haveEnemies = false;
+var heroSensors = new Sensors(hero, world);
 
 function showEnemies () {
   if (haveEnemies) {
-    haveEnemies = false
+    haveEnemies = false;
     document.getElementById("enemyButton").value="Play With Enemies";
   } else {
-    haveEnemies = true
+    haveEnemies = true;
     document.getElementById("enemyButton").value="Play Without Enemies";
     }
 }
@@ -99,39 +138,41 @@ function showEnemies () {
     MySprite.prototype.Do_Frame_Things = function() {
 
       // apply velocities
-        
-      var factor = 2.5
+      if(heroSensors.isWall()) {
+	wall.play();
+      }  
+      var factor = 2.5;
       if (this.velocity_x < 0) {
        if (canMoveRight) {
          hero.x += this.velocity_x * factor;
        } else {
-         wall.play();
+         //wall.play();
        }
       }
       if (this.velocity_x > 0) {
        if (canMoveLeft) {
          hero.x += this.velocity_x * factor;
        } else {
-         wall.play();
+         //wall.play();
        }
       }
       if (this.velocity_y < 0) {
        if (canMoveDown) {
          hero.y += this.velocity_y * factor;
        } else {
-         wall.play();
+         //wall.play();
        }
       }
       if (this.velocity_y > 0) {
        if (canMoveRight) {
          hero.y += this.velocity_y * factor;
        } else {
-         wall.play();
+         //wall.play();
        }
       }
 	var space = 60;
-	var cx = myCanvas.width / 2 - world.x
-	var cy = myCanvas.height / 2 - world.y
+	var cx = myCanvas.width / 2 - world.x;
+	var cy = myCanvas.height / 2 - world.y;
 	if (Math.abs(hero.x - cx) > space) {
 	  var dx = (Math.abs(hero.x - cx) - space) * Math.sign(hero.x - cx);
 	  this.x -= dx;
@@ -151,16 +192,16 @@ function showEnemies () {
 	  hero.y -= dy;
 	}
 
-	world.x = this.x
-	world.y = this.y
+	world.x = this.x;
+	world.y = this.y;
   
         if (this.visible){ 
 	  ctx.imageSmoothingEnabled = false;
           ctx.webkitImageSmoothingEnabled = false;
           ctx.mozImageSmoothingEnabled = false;
           ctx.drawImage(this.MyImg, this.x, this.y, 6000, 3000); // draw the maze
-	   var imageWidth = MySprite.width
-	   var imageHeight = MySprite.height
+	   var imageWidth = MySprite.width;
+	   var imageHeight = MySprite.height;
           }
         }
 
@@ -233,7 +274,7 @@ function Do_a_Frame () {
   nextLevel = (Data[1] == 250);
   if (nextLevel) {
     endLevel();
-    levelsLeft -= 1
+    levelsLeft -= 1;
   }
   hero.draw(world);
   //ctx.drawImage(character, (myCanvas.width / 2) - (cw / 2) + hero.x, (myCanvas.height / 2) - (ch / 2) + hero.y, cw, ch);
