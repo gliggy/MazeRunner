@@ -19,6 +19,14 @@ var lastDeathTime = 0;
 var wall = new Audio("hitWall.wav");
 var levelUp = new Audio("nextLevel.wav");
 var hitEnemy = new Audio("hitEnemy.wav");
+var bgMusic = new Audio("bgMusic.mp3");
+ 
+bgMusic.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+bgMusic.play();
+bgMusic.volume = 0.4;
 
 class World {
   constructor(ctx, width, height) {
