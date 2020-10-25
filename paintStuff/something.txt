@@ -1,1 +1,5 @@
+Why does this exist I wonder?
+The reason is that github won't let you create a folder without creating a file inside it. This is the file that resulted.
 
+Thanks for reading,
+Bye!
