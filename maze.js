@@ -120,7 +120,7 @@ for (var i = 0; i < 10; i ++){
 var heroCostume = new Image();
 heroCostume.src = "character.png";
 var hero = new Mover(myCanvas.width / 2, myCanvas.height / 2, heroCostume); 
-var haveEnemies = false;
+var haveEnemies = true;
 var heroSensors = new Sensors(hero, world);
 
 function showEnemies () {
