@@ -1,2 +1,6 @@
 .myCanvas {padding:20px; text-align:center;}
 
+body {
+  background-image: url("gradient_bg.jpeg");
+  background-repeat: repeat-x;
+}
