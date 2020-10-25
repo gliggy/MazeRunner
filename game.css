@@ -4,3 +4,8 @@ body {
   background-image: url("green_gradient2.png");
   background-repeat: repeat-x;
 }
+
+#bottomStuffAlso {
+  border: 2px solid red;
+  border-radius: 5px;
+}
