@@ -311,10 +311,12 @@ var UndoButton = class UndoButton {
   }
 }
 
+
+
 var startState = {
   tool: "draw",
   color: "#000000",
-  picture: Picture.empty(60, 30, "#f0f0f0"),
+  picture: Picture.empty(60, 30, "#ffffff"),
   done: [],
   doneAt: 0
 };

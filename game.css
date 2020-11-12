@@ -9,3 +9,8 @@ body {
   border: 2px solid red;
   border-radius: 5px;
 }
+
+#bottomThing {
+  color: gold;
+  text-decoration: indigo;
+}

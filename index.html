@@ -12,7 +12,7 @@
    <div id=BottomStuffAlso> 
    <heading id="Link" class="gameText"><a href="https://gliggy.github.io/MazeRunner/paintStuff/">Draw Your Own Level!</a></heading>
     <heading>Or get one from your computer:</heading>
-    <input type="file" accept="image/*" onchange="loadFile(event)">
+    <input classs="bottomThing" type="file" accept="image/*" onchange="loadFile(event)">
     <img id="output"/>
      <div>
       <script>
@@ -28,8 +28,8 @@
        };
       </script>
      </div>
-    <button onclick="backLevel()" class="button">Go Back to level 1.</button>
-    <input type="button" value="Play Without Enemies" id="enemyButton" onclick="showEnemies()"></input>
+    <button onclick="backLevel()" class="bottomThing">Go Back to level 1.</button>
+    <input type="button" value="Play Without Enemies" class="bottomThing" id="enemyButton" onclick="showEnemies()"></input>
      </div>
    </div>
   </body>
